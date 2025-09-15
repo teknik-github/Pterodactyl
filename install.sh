@@ -25,11 +25,15 @@ fi
 
 echo "Dependency Installation and Update"
 apt update
+sleep 2
+
 # Add "add-apt-repository" command
 apt -y install software-properties-common curl apt-transport-https ca-certificates gnupg
+sleep 2
 
 # Add additional repositories for PHP (Ubuntu 22.04)
 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+sleep 2
 
 # Add Redis official APT repository
 curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
@@ -40,13 +44,16 @@ apt update
 
 # Install Dependencies
 apt -y install php8.3 php8.3-{common,cli,gd,mysql,mbstring,bcmath,xml,fpm,curl,zip} mariadb-server nginx tar unzip git redis-server
+sleep 2
 
 echo "Stopping old Nginx"
 systemctl stop nginx >/dev/null 2>&1
 pkill -9 nginx >/dev/null 2>&1
+sleep 1
 
 echo "Composer Installation"
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+sleep 2
 
 echo "Pterodactyl Panel Installation"
 mkdir -p /var/www/pterodactyl
@@ -177,6 +184,7 @@ EOF
 echo "Starting Pterodactyl Queue Service"
 systemctl enable --now redis-server
 systemctl enable --now pteroq.service
+sleep 2
 
 echo "Nginx Configuration"
 rm /etc/nginx/sites-enabled/default
@@ -233,6 +241,7 @@ sleep 5
 
 echo "Start Nginx"
 systemctl enable --now nginx
+sleep 2
 
 
 cat <<'EOF'
@@ -250,12 +259,13 @@ EOF
 echo "Installing Docker"
 curl -sSL https://get.docker.com/ | CHANNEL=stable bash
 sudo systemctl enable --now docker
-GRUB_CMDLINE_LINUX_DEFAULT="swapaccount=1"
+sleep 2
 
 echo "Downloading and Installing Pterodactyl Wings"
 sudo mkdir -p /etc/pterodactyl
 curl -L -o /usr/local/bin/wings "https://github.com/pterodactyl/wings/releases/latest/download/wings_linux_$([[ "$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "arm64")"
 sudo chmod u+x /usr/local/bin/wings
+sleep 2
 
 echo "Creating Wings Systemd Service"
 cat << EOF > /etc/systemd/system/wings.service
@@ -281,6 +291,7 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl enable --now wings
+sleep 2
 
 cat <<'EOF'
                              __________                    .__   
