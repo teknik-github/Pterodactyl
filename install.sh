@@ -136,15 +136,15 @@ php artisan migrate --seed --force
 echo "Set Permissions"
 chown -R www-data:www-data /var/www/pterodactyl/*
 
-echo "Make User Admin"
-cd /var/www/pterodactyl && php artisan p:user:make
+# echo "Make User Admin"
+# cd /var/www/pterodactyl && php artisan p:user:make
 
 echo "Cron Jobs Pterodactyl"
 CRON_JOB="* * * * * php /var/www/pterodactyl/artisan schedule:run >> /var/log/pterodactyl-schedule.log 2>&1"
 (crontab -u www-data -l 2>/dev/null | grep -F "$CRON_JOB" >/dev/null) || \
 (echo "$CRON_JOB" | crontab -u www-data -)
 
-# pastikan port 80 kosong
+echo "pastikan port 80 kosong"
 if ss -tulpn | grep -q ':80'; then
     echo "❌ Port 80 masih digunakan, cek manual dengan: ss -tulpn | grep :80"
     exit 1
