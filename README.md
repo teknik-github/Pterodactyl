@@ -2,10 +2,12 @@
 
 ## Cara Instalasi Otomatis
 
-### Metode 1: Jalankan langsung via curl
+> Note: Pastikan server Anda menjalankan Ubuntu 22.04+ atau Debian 11+ dan juga harus menggunakan sudo.
+
+### Metode 1: Jalankan langsung via wget
 
 ```bash
-curl https://raw.githubusercontent.com/teknik-github/Pterodactyl/refs/heads/main/install.sh | sudo bash
+wget -O install.sh https://raw.githubusercontent.com/teknik-github/Pterodactyl/refs/heads/main/install.sh && bash install.sh
 ```
 
 ### Metode 2: Manual
