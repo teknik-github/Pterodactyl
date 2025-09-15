@@ -63,7 +63,9 @@ echo "Downloading Pterodactyl"
 curl -Lo panel.tar.gz https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz
 tar -xzvf panel.tar.gz
 chmod -R 755 storage/* bootstrap/cache/
-
+sleep 2
+clear
+echo ""
 read -p "Masukkan domain untuk panel (contoh: xxx.com): " DOMAIN
 
 echo "Generating Password Databases"
@@ -143,8 +145,8 @@ php artisan migrate --seed --force
 echo "Set Permissions"
 chown -R www-data:www-data /var/www/pterodactyl/*
 
-# echo "Make User Admin"
-# cd /var/www/pterodactyl && php artisan p:user:make
+echo "Make User Admin"
+cd /var/www/pterodactyl && php artisan p:user:make
 
 echo "Cron Jobs Pterodactyl"
 CRON_JOB="* * * * * php /var/www/pterodactyl/artisan schedule:run >> /var/log/pterodactyl-schedule.log 2>&1"
