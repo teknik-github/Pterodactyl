@@ -79,7 +79,7 @@ fi
 # Generate password
 PASSWORD=$(openssl rand -base64 48 | tr -dc 'A-Za-z0-9!@#$%^&*()_+=-' | head -c $LENGTH)
 
-echo "Password Generated: $PASSWORD"
+echo "Password Generated For Database: $PASSWORD"
 
 read -p "Apakah Anda ingin menggunakan SMTP? (yes/no): " USE_SMTP
 
@@ -132,7 +132,6 @@ mysql -u root <<EOF
 CREATE USER 'ptero'@'localhost' IDENTIFIED BY '$PASSWORD';
 CREATE DATABASE panel;
 GRANT ALL PRIVILEGES ON panel.* TO 'ptero'@'localhost' WITH GRANT OPTION;
-exit;
 EOF
 
 echo "Generating Application Key"
